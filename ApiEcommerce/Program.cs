@@ -13,7 +13,8 @@ builder.Services.AddSwaggerGen();
 var dbConnectionString = builder.Configuration.GetConnectionString("ConnectionString");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(dbConnectionString));
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+  
 builder.Services.AddControllers();
 var app = builder.Build();
 app.MapControllers();
