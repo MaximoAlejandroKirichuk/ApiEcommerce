@@ -1,5 +1,6 @@
 using ApiEcommerce.Models;
 using ApiEcommerce.Models.Dtos;
+using ApiEcommerce.Models.Dtos.Category;
 
 namespace ApiEcommerce.Mapping;
 

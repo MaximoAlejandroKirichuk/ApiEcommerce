@@ -1,14 +1,17 @@
 using ApiEcommerce.Mapping;
 using ApiEcommerce.Models;
 using ApiEcommerce.Models.Dtos;
+using ApiEcommerce.Models.Dtos.Category;
 using ApiEcommerce.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiEcommerce.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/categories")]
     [ApiController]
+    [Authorize]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepository;
@@ -20,7 +23,8 @@ namespace ApiEcommerce.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult GetALLCategories()
+        [AllowAnonymous]
+        public IActionResult Get()
         {
             var categories = _categoryRepository.GetAll();
             var categoriesDTO = new List<CategoryDTO>();
@@ -36,9 +40,10 @@ namespace ApiEcommerce.Controllers
             }
             return Ok(categoriesDTO);
         }
-        [HttpGet("Id/{id}", Name = "GetCategoryById")] 
+        [HttpGet("Id/{id:int}", Name = "GetCategoryById")] 
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        
         public async Task<IActionResult> GetCategoryById(int id)
         {
             var category = await _categoryRepository.GetById(id);
