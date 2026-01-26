@@ -1,4 +1,4 @@
-namespace ApiEcommerce.Extension;
+namespace ApiEcommerce.Extensions;
 
 public static class MiddlewareExtensions
 {

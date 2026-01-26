@@ -5,16 +5,21 @@ using ApiEcommerce.Repository.IRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
-namespace ApiEcommerce.Extension;
+namespace ApiEcommerce.Extensions;
 
 public static class ServiceExtension
 {
+    
     public static void AddApplicationServices(this WebApplicationBuilder builder)
     {
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        var services = builder.Services;
 
+        services.AddControllers();
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerWithJwt();
+        
         var dbConnectionString = builder.Configuration.GetConnectionString("ConnectionString");
         builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(dbConnectionString));
         builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -40,7 +45,6 @@ public static class ServiceExtension
             };
         });
 
-        builder.Services.AddControllers();
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowSpecificOrigin",
